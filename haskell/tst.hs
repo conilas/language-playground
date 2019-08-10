@@ -7,8 +7,8 @@ catenateYouOpt   = Just . catenateYou
 -- remember: Functor are simply mappers from one cat to another
 -- in hask case, they are the same, so we have an Endofunctor
 -- it maps object: va E Hask \exists Fa E Hask
--- and arrows. arrows are from fmap
-functor   :: Maybe String -> Maybe String
+-- and arrows. arrows are from fmap - like this function invokes!
+functor :: Functor f => f [Char] -> f [Char]
 functor a = catenateYou <$> a
 
 -- calling the applicative star
@@ -35,3 +35,11 @@ monad a = a >>= catenateYouOpt
 -- just to show some point free notation
 do_all :: Maybe String -> Maybe String
 do_all = applicative . functor . monad
+
+prod_applicative a = (" hey ", (++"")) <*> a
+
+-- fun thing about the applicative for the product type:
+-- it has to be a monoid on the argument 
+-- so we could describe its type like
+-- Monoid a => Applicative ((,) a)
+product_applicative = prod_applicative .  functor
