@@ -43,3 +43,28 @@ prod_applicative a = (" hey ", (++"")) <*> a
 -- so we could describe its type like
 -- Monoid a => Applicative ((,) a)
 product_applicative = prod_applicative .  functor
+
+
+-- the io applicative is the most interesting so far
+-- see, it can simply throw out a value with the then function (>>) 
+-- say: if we try to do let a = create_io "useless" >> create_io "new",
+-- out a will be at the end a IO [Char] being "new" only, and the useless
+-- string turns out to be in fact useless. 
+-- it is easy to see how this can be of use for an IO of Unit (IO ()), because 
+-- it allows to chain operations for it. 
+-- Like putStr :: [Char] -> IO (). You can chain many of them and the only thing they
+-- compute is the side-effect of outputting a String. 
+-- IO is cool and easy to understand after a while
+create_io  :: [Char] -> IO [Char] 
+create_io a = return a
+
+create_number_from_string :: [Char] -> Int
+create_number_from_string _ = 10
+
+create_applicative_from_function :: Applicative a => ([Char] -> Int) -> a ([Char] -> Int)
+create_applicative_from_function = pure 
+
+io_applicative a fn = let applicative_holder = create_applicative_from_function fn in
+			let applicative_value = create_io a in
+			    applicative_holder <*> applicative_value				
+
