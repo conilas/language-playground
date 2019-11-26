@@ -68,3 +68,4 @@ io_applicative a fn = let applicative_holder = create_applicative_from_function 
 			let applicative_value = create_io a in
 			    applicative_holder <*> applicative_value				
 
+test = Just 1 <|> Just 'a'
