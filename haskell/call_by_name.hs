@@ -1,3 +1,6 @@
+-- this idea was taken from the book Lucid: the dataflow programming language
+-- which shows how the semantics of ISWIM work and explain Lucid.... the dataflow programming language, lol
+
 cond :: Bool -> Integer -> Integer -> Integer
 cond c a b = if c then a else b
 
