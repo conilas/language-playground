@@ -6,10 +6,10 @@ const rememberuptolast_ret = (comp, list) => {
   const fn = (values) => (kont) => {
     if (values.length == 0) return kont()
     
-    return fn(tail(values))(() => comp == head(values) ? tail(values) : kont())
+    fn(tail(values))(() => comp == head(values) ? console.log(tail(values)) : kont())
   }
   
-  return fn(list)(() => list)
+  fn(list)(() => console.log(list))
 }
 
 /**
